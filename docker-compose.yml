@@ -1,6 +1,11 @@
 services:
   notion-mcp-server:
     build: .
-    stdin_open: true
-    tty: true
+    ports:
+      - "3005:3005"
+    environment:
+      - OPENAPI_MCP_HEADERS=${OPENAPI_MCP_HEADERS:-{}}
+      - NOTION_TOKEN=${NOTION_TOKEN}
+      - AUTH_TOKEN=${AUTH_TOKEN}
     restart: unless-stopped
+    command: ["--", "--transport", "http", "--port", "3005"]
